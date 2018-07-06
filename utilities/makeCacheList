@@ -1,0 +1,85 @@
+#!/usr/bin/python
+
+import os
+import sys
+import shutil
+import re
+import optparse
+import os.path
+import glob
+
+# =============================================================================
+#
+#                               PREAMBLE
+#
+# =============================================================================
+
+def parse_commandline():
+        """
+        Parse the options given on the command-line.
+        """
+        parser = optparse.OptionParser()
+
+        parser.add_option("-w", "--workdirectory",help="Working directory.",default = '.')
+        parser.add_option("-L", "--jobLimit",help="Number of cache files per job.",default = 10)
+
+        opts, args = parser.parse_args()
+        return opts
+
+# =============================================================================
+#
+#                                    Main
+#
+# =============================================================================
+def main():
+        ## parse the command line
+        opts = parse_commandline()
+	
+	wdir = opts.workdirectory
+	limit = int(opts.jobLimit)
+        i = 1
+	dirflag = 1
+
+	if wdir == '.':
+		c_directory = glob.glob('cache/*.lcf')
+		outfile = open('cacheList_1.txt','w')
+	else:
+		c_directory = glob.glob(wdir + '/cache/*.lcf')
+                outfile = open(wdir + '/cacheList_1.txt','w')
+		dirflag = 0
+
+	for index, item in enumerate(c_directory):
+		if index > 0:
+			if not index%limit:
+				#print 'true'
+				#print index
+				if dirflag:
+					outfile = open('cacheList_'+str(i)+'.txt','w')
+				else:
+					outfile = open(wdir + '/cacheList_'+str(i)+'.txt','w')
+				item = item.split('/')
+                        	item = item[len(item) - 1]
+	                        outfile.write(item + '\n')
+				#print index
+				#print 'new'
+			if index%limit:
+				#print index
+				item = item.split('/')
+				item = item[len(item) - 1]
+				outfile.write(item + '\n')
+		else:
+			item = item.split('/')
+	                item = item[len(item) - 1]
+        	        outfile.write(item + '\n')
+			#print 'first'
+		if not (index + 1)%limit:
+			#print 'closing'
+			#print index
+			#print limit%(index+1)
+			#print '________________'
+			outfile.close()
+			i = i + 1
+
+if __name__ == "__main__":
+    main()
+

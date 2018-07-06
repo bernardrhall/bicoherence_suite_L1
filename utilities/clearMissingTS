@@ -1,0 +1,114 @@
+#!/usr/bin/python
+
+import os
+import sys
+import shutil
+import re
+import optparse
+import os.path
+import glob
+
+# =============================================================================
+#
+#                               PREAMBLE
+#
+# =============================================================================
+
+def parse_commandline():
+        """
+        Parse the options given on the command-line.
+        """
+        parser = optparse.OptionParser()
+
+        parser.add_option("-w", "--workdirectory",help="Working directory.",default = '.')
+        parser.add_option("-L", "--jobLimit",help="Number of cache files per job.",default = 10)
+
+        opts, args = parser.parse_args()
+        return opts
+
+# =============================================================================
+#
+#                                    Main
+#
+# =============================================================================
+def main():
+	## parse the command line
+        opts = parse_commandline()
+	sdirA = 'source'
+	sdirB = 'source_A'
+	sdirC = 'source_B'
+
+	missingListA = glob.glob(sdirA + '/*missing')
+	missingListB = glob.glob(sdirB + '/*missing')
+	missingListC = glob.glob(sdirC + '/*missing')
+
+	if not os.path.exists(sdirA + '/ex/'):
+    		os.makedirs(sdirA + '/ex/')
+	if not os.path.exists(sdirB + '/ex/'):
+                os.makedirs(sdirB + '/ex/')
+	if not os.path.exists(sdirB + '/ex/'):
+                os.makedirs(sdirB + '/ex/')
+
+	if (len(missingListA) == len(missingListB)) and (len(missingListB) == len(missingListC)) and (len(missingListA) == len(missingListC)):
+		print 'All lists same length...ok to proceed...'
+	else:
+		l = max(len(missingListA),len(missingListB),len(missingListC))
+		if len(missingListA) == l:
+			d = 1
+			print 'A wins'
+		elif len(missingListB) == l:
+			d = 2
+                        print 'B wins'
+		elif len(missingListC) == l:
+                        d = 3
+                        print 'C wins'	
+		else:
+			print 'Error...'
+		if d == 1:
+			lst = missingListA
+			lB = len(missingListB)
+			lC = len(missingListC)
+			sA = sdirA
+			sB = sdirB
+			sC = sdirC
+		elif d == 2:
+			lst = missingListB
+			lB = len(missingListA)
+                        lC = len(missingListC)
+			sA = sdirB
+			sB = sdirA
+                        sC = sdirC
+		elif d == 3:
+			lst = missingListC
+			lB = len(missingListB)
+                        lC = len(missingListA)
+			sA = sdirC
+			sB = sdirB
+                        sC = sdirA
+		
+		if (lB == 0) and (lC == 0):
+			for item in lst:
+				print 'Moving primary file...'                                          
+                        	shutil.move(item, sA + '/ex')
+			print 'Nothing else to transfer...exiting...'
+			sys.exit()
+		
+		for item in lst:
+			orig = item
+			item = item.split('/')
+			item = item[len(item)-1]
+			item = item.split('_')
+			item = item[0]
+			print 'Time: ' + item
+			fB = glob.glob(sB + '/' + item + '*')
+			fC = glob.glob(sC + '/' + item + '*')
+			fB = fB[0]
+			fC = fC[0]
+			print 'Moving ' + fB
+			shutil.move(fB, sB + '/ex')
+			print 'Moving ' + fC
+			shutil.move(fC, sC + '/ex')
+			print 'Moving primary file...'						
+			shutil.move(orig, sA + '/ex')
+if __name__ == "__main__":
+    main()

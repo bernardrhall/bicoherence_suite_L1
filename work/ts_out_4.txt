@@ -1,0 +1,160 @@
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779377.001831_1165779389.001831.lcf 1165779377.001831_1165779389.001831.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779389.001892_1165779401.001892.lcf 1165779389.001892_1165779401.001892.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779401.001953_1165779413.001953.lcf 1165779401.001953_1165779413.001953.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779413.002014_1165779425.002014.lcf 1165779413.002014_1165779425.002014.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779425.002075_1165779437.002075.lcf 1165779425.002075_1165779437.002075.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779437.002136_1165779449.002136.lcf 1165779437.002136_1165779449.002136.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779449.002197_1165779461.002197.lcf 1165779449.002197_1165779461.002197.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779461.002258_1165779473.002258.lcf 1165779461.002258_1165779473.002258.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779473.002319_1165779485.002319.lcf 1165779473.002319_1165779485.002319.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+
+frameCache = 
+
+          sites: {'L'}
+     frameTypes: {'L1_HOFT_C00'}
+     startTimes: 1.1658e+09
+      stopTimes: 1.1658e+09
+      durations: 4096
+    directories: {'/hdfs/frames/O2/hoft/L1/L-L1_HOFT_C00-11657'}
+
+Writing time-series text file...
+Done!
+source inputfiles/MatlabSetup_R2008a_glnxa64.sh; getTs cache/1165779485.002380_1165779497.002380.lcf 1165779485.002380_1165779497.002380.lcf 1 0 L1:GDS-CALIB_STRAIN source 1
+Reading frame data...
+Fetching time series 1 of 10
+getTimeSeries -C 1165779377.001831_1165779389.001831.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 2 of 10
+getTimeSeries -C 1165779389.001892_1165779401.001892.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 3 of 10
+getTimeSeries -C 1165779401.001953_1165779413.001953.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 4 of 10
+getTimeSeries -C 1165779413.002014_1165779425.002014.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 5 of 10
+getTimeSeries -C 1165779425.002075_1165779437.002075.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 6 of 10
+getTimeSeries -C 1165779437.002136_1165779449.002136.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 7 of 10
+getTimeSeries -C 1165779449.002197_1165779461.002197.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 8 of 10
+getTimeSeries -C 1165779461.002258_1165779473.002258.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 9 of 10
+getTimeSeries -C 1165779473.002319_1165779485.002319.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0
+Fetching time series 10 of 10
+getTimeSeries -C 1165779485.002380_1165779497.002380.lcf -f L1:GDS-CALIB_STRAIN -d 1 -w . -o source -r 0

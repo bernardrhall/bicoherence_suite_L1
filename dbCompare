@@ -1,0 +1,166 @@
+#!/usr/bin/python
+
+import os
+import sys
+import shutil
+import re
+import optparse
+import os.path
+import sqlite3
+import glob
+
+# =============================================================================
+#
+#                               PREAMBLE
+#
+# =============================================================================
+
+def parse_commandline():
+        """
+        Parse the options given on the command-line.
+        """
+        parser = optparse.OptionParser()
+
+	parser.add_option("-o", "--outpath",help="Output directory.",default = 'gaussian_T_0_95')
+        parser.add_option("-i", "--ifo",help="IFO (e.g., H1 or L1)",default = 'H1')
+        parser.add_option("-T", "--tolerance",help="Match tolerance.",default = 1.2)
+        parser.add_option("-r", "--resolution",help="Frequency resolution of study.",default = 0.25)
+        parser.add_option("-f", "--inputFile",help="Text file containing list of cluster files.",default = 'datList.tmp')
+        parser.add_option("-t", "--centralTime",help="Central time of cluster(s).",default = 0)
+        parser.add_option("-S", "--sqlDBpath", help="Path to Sqlite database of known frequencies.",default = '/home/bernard.hall')
+	parser.add_option("-Q", "--overload",help="Cluster overload threshold.",default = 600)
+        opts, args = parser.parse_args()
+        return opts
+
+# =============================================================================
+#
+#                                    Main
+#
+# =============================================================================
+def main():
+        ## parse the command line
+        opts = parse_commandline()
+	#c_directory = glob.glob('blip_nv_1/clusters_*.dat')
+	c_dirFile = open(opts.inputFile,'r')
+	c_directory = c_dirFile.readlines()
+	c_dirFile.close()
+	#cFile = 'clusters_1126289910.4131+H1:CAL-DELTAL_EXTERNAL_DQ+16384+12_1126289916.4131_4.dat'
+	ifo = opts.ifo
+	directoryC = opts.outpath
+	resolution = float(opts.resolution)
+	tol = float(opts.tolerance)
+	bars = str(tol * resolution)
+	overload = int(opts.overload)
+
+	timeTAG = str(opts.centralTime)
+
+	if opts.sqlDBpath == '.':
+		conn = sqlite3.connect('known_frequencies.db')
+	else:
+		connString = opts.sqlDBpath + '/known_frequencies.db'
+		conn = sqlite3.connect(connString)
+	
+	print connString
+	print "Opened database successfully";
+
+	gr = 'LightGray'
+	hl = 'yellow'
+
+	hstring = """<table style="width:100%">
+"""
+
+	for n, cFile in enumerate(c_directory):
+		freqinput = open(cFile.strip('\n'), 'r')
+		freq = freqinput.readlines()
+		freqinput.close()
+		if len(freq) > overload:
+			print "WARNING: Number of query items exceeds overload threshold!  Noting and exiting..."
+			if directoryC == '.':
+				nm = cFile.strip('\n')
+                                olfile = open('overload_' + nm,'w')
+                                olfile.close()
+			else:
+				nm = cFile.strip('\n')
+				nm = nm.split('/')
+				nm = nm[len(nm)-1]
+				olfile = open(directoryC + '/overload_' + nm,'w')
+				olfile.close()
+			sys.exit()
+		#conn = sqlite3.connect('known_frequencies.db')
+		#print "Opened database successfully";
+		dlnk = cFile.strip('\n')
+		lnktest = dlnk.split('/')
+		if len(lnktest) > 1:
+			dlnk = lnktest[len(lnktest)-1]	
+		hstring = hstring + """<tr>
+<th style='background: gray; padding: 4px;' colspan = '4'><a href='""" + dlnk +"""' target='_blank'>Cluster</a>: """ + str(n + 1) + """</th>"""
+		for item in freq:
+			item = item.split()
+			f1 = item[0]
+			f2 = item[1]
+		
+			connString1 = "SELECT FREQUENCY_T,FREQUENCY_M,IFO,GRP,LOCATION,SYSTEM,SUBSYSTEM,DESCRIPTION from FREQUENCIES where FREQUENCY_T>(" + f1 + "-"+ bars +") AND FREQUENCY_T<(" + f1 + "+"+ bars  +") AND IFO='" + ifo + "'"
+			connString2 = "SELECT FREQUENCY_T,FREQUENCY_M,IFO,GRP,LOCATION,SYSTEM,SUBSYSTEM,DESCRIPTION from FREQUENCIES where FREQUENCY_T>(" + f2 + "-"+ bars +") AND FREQUENCY_T<(" + f2 + "+"+ bars +") AND IFO='" + ifo + "'"
+			#print connString
+			cursor = conn.execute(connString1)
+			cursor2 = conn.execute(connString2)
+			#datF2 = cursor2.fetchall()
+			#print datF2
+			for i, row in enumerate(cursor):
+				if i == 0:
+					hstring = hstring + """
+<tr style='border: 1px solid black;'>
+<td style='border: 1px solid black; padding: 3px;' colspan = '4'>(Bicoherence) identified <b>f1: """ + f1 + """ Hz</b> \t (f2: """ + item[1] + """ Hz)</td>
+</tr>
+"""
+				hstring = hstring + """<tr><td>""" + str(i + 1) + """) <i>Possible known match:</i></td></tr>
+<tr><td>
+<table style="width:100%; margin-right: 10px;"><tr><td><small>Matched</small></td><td><small>IFO</small></td><td><small>Group</small></td><td><small>Location</small></td><td><small>System</small></td></tr>
+<tr><td>f1</td><td>""" + row[2] + """</td><td>""" + row[3] + """</td><td>""" + row [4] + """</td><td>""" + row[5] + """</td></tr></table></td>
+<td>f1: """ + row[6] + """, """ + row[7] + """</td>
+"""
+				if row[0] == 0:
+					bk1 = gr
+				else:
+					bk1 = hl
+				if row[1] == 0:
+        	                        bk2 = gr
+                	        else:
+                        	        bk2 = hl
+				hstring = hstring + """<td style='background: """ + bk1 + """; padding: 4px;'>f1 (theoretical) = """ + str(row[0]) + """ Hz</td> 
+<td style='background: """ + bk2 + """; padding: 4px;'>f1 (measured) = """ + str(row[1]) + """ Hz</td>
+</tr>
+"""
+			for j, row in enumerate(cursor2):
+				if j == 0:
+					hstring = hstring + """<tr style='border: 1px solid black;'>
+<td style='border: 1px solid black; padding: 3px;' colspan='4'>(Bicoherence) identified <b>f2: """ + f2 + """ Hz</b> \t (f1: """ + item[0] + """ Hz)</td>
+</tr>
+"""
+		                hstring = hstring + """<tr><td>""" + str(j + 1) + """) <i>Possible known match:</i></td></tr>
+<tr><td><table style="width:100%; margin-right: 10px;"><tr><td><small>Matched</small></td><td><small>IFO</small></td><td><small>Group</small></td><td><small>Location</small></td><td><small>System</small></td></tr>
+<tr><td>f2</td><td>""" + row[2] + """</td><td>""" + row[3] + """</td><td>""" + row [4] + """</td><td>""" + row[5] + """</td></tr></table></td>
+<td>f2: """ + row[6] + """, """ + row[7] + """</td>
+"""
+				if row[0] == 0:
+                	                bk1 = gr
+                        	else:
+                                	bk1 = hl
+	                        if row[1] == 0:
+        	                        bk2 = gr
+                	        else:
+                        	        bk2 = hl
+				hstring = hstring + """<td style='background: """ + bk1 + """; padding: 4px;'>f2 (theoretical) = """ + str(row[0]) + """ Hz</td>
+<td style='background: """ + bk2 + """; padding: 4px;'>f2 (measured) = """ + str(row[1]) + """ Hz</td>
+"""
+	conn.close()
+	print hstring
+	if directoryC == '.':
+		houtput = open('matches_' + timeTAG + '.html', 'w')
+	else:
+		houtput = open(directoryC + '/matches_' + timeTAG + '.html', 'w')
+	houtput.writelines(hstring)
+	houtput.close()
+
+if __name__ == "__main__":
+    main()
